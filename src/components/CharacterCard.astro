@@ -1,0 +1,85 @@
+---
+import type { Character } from '@/services/characters'
+import CharacterImage from '@/components/CharacterImage.astro'
+interface Props {
+	character: Character
+}
+
+const { character } = Astro.props
+---
+
+<article class='card'>
+	<a href={`/character/${character.id}`} class='card-link'>
+		<CharacterImage name={character.name} image={character.image} className='little-img' />
+		<div class='card-content'>
+			<h3>{character.name}</h3>
+
+			<div class='card-stats'>
+				<p class='ki'>Ki: {character.ki}</p>
+				<p class='max-ki'>Max Ki: {character.maxKi}</p>
+			</div>
+
+			<div class='card-info'>
+				<p class='race'>Race: {character.race}</p>
+				<p class='gender'>Gender: {character.gender}</p>
+				<p class='affiliation'>
+					Affiliation: {character.affiliation}
+				</p>
+			</div>
+
+			<p class='description'>
+				{character.description}
+			</p>
+		</div>
+	</a>
+</article>
+
+<style>
+	.card {
+		background: var(--card-bg);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+		transition: transform 0.2s ease;
+		overflow: hidden;
+	}
+
+	.card:hover {
+		transform: translateY(-4px);
+	}
+
+	.card-content {
+		padding: 1rem;
+	}
+
+	.card-stats {
+		display: flex;
+		gap: 1rem;
+		margin: 0.5rem 0;
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+	}
+
+	.card-info {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0.5rem 0;
+		font-size: 0.9rem;
+	}
+
+	.description {
+		font-size: 0.9rem;
+		line-height: 1.5;
+		margin: 0.5rem 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.card-link {
+		text-decoration: none;
+		color: inherit;
+		display: block;
+	}
+</style>
