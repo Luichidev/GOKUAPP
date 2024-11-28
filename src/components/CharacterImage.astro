@@ -1,0 +1,35 @@
+---
+import type { record } from 'astro:schema'
+
+interface Props {
+	readonly name: string
+	readonly image: string
+	readonly className: string
+}
+const { name, image, className } = Astro.props
+---
+
+<picture class='card-img' transition:name=`character-image-${name}`>
+	<img src={image} alt={name} loading='lazy' decoding='async' class={className} />
+</picture>
+
+<style>
+	.card-img {
+		width: 100%;
+		height: auto;
+	}
+
+	.card-img img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.big-img {
+		aspect-ratio: 185/428;
+	}
+
+	.little-img {
+		aspect-ratio: 16/9;
+	}
+</style>
