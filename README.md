@@ -1,4 +1,4 @@
-# Astro Starter Kit: Minimal
+# PROYECT GOKU APP
 
 ```sh
 git clone
