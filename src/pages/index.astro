@@ -1,16 +1,36 @@
 ---
+import Layout from '@/layouts/Layout.astro'
+import CharacterCard from '@/components/CharacterCard.astro'
+import { getCharacters } from '@/services/characters'
 
+const characters = await getCharacters()
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title='Dragon Ball Characters'>
+	<main class='container'>
+		<h1>Dragon Ball Characters</h1>
+
+		<div class='characters-grid'>
+			{characters.map((character) => <CharacterCard character={character} />)}
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.container {
+		width: min(1200px, 90%);
+		margin: 2rem auto;
+	}
+
+	h1 {
+		text-align: center;
+		margin-bottom: 2rem;
+		color: var(--text-primary);
+	}
+
+	.characters-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+		gap: 2rem;
+	}
+</style>
