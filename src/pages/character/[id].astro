@@ -1,0 +1,140 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { getCharacterById, getCharacters } from '@/services/characters'
+import CharacterImage from '@/components/CharacterImage.astro'
+
+export async function getStaticPaths() {
+	const characters = await getCharacters()
+
+	return characters.map((character) => ({
+		params: { id: character.id },
+		props: { character },
+	}))
+}
+
+const { character } = Astro.props
+---
+
+<Layout title={`${character.name} | Dragon Ball`}>
+	<main class='container'>
+		<a href='/' class='back-link'> &larr; Volver </a>
+
+		<article class='character-detail'>
+			<CharacterImage name={character.name} image={character.image} className='big-img' />
+			<div class='character-info'>
+				<h1>{character.name}</h1>
+
+				<div class='stats'>
+					<div class='stat'>
+						<span>Ki</span>
+						<strong>{character.ki}</strong>
+					</div>
+					<div class='stat'>
+						<span>Max Ki</span>
+						<strong>{character.maxKi}</strong>
+					</div>
+				</div>
+
+				<dl class='details'>
+					<div>
+						<dt>Race</dt>
+						<dd>{character.race}</dd>
+					</div>
+					<div>
+						<dt>Gender</dt>
+						<dd>{character.gender}</dd>
+					</div>
+					<div>
+						<dt>Affiliation</dt>
+						<dd>{character.affiliation}</dd>
+					</div>
+				</dl>
+
+				<p class='description'>
+					{character.description}
+				</p>
+			</div>
+		</article>
+	</main>
+</Layout>
+
+<style>
+	.container {
+		width: min(1200px, 90%);
+		margin: 2rem auto;
+		view-transition-name: container;
+	}
+
+	.back-link {
+		display: inline-block;
+		margin-bottom: 2rem;
+		color: var(--text-secondary);
+		text-decoration: none;
+	}
+
+	.back-link:hover {
+		color: var(--text-primary);
+	}
+
+	.character-detail {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+
+	@media (min-width: 768px) {
+		.character-detail {
+			grid-template-columns: 400px 1fr;
+		}
+	}
+
+	.character-info h1 {
+		margin: 0 0 1rem;
+		color: var(--text-primary);
+	}
+
+	.stats {
+		display: flex;
+		gap: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.stat span {
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+	}
+
+	.stat strong {
+		font-size: 1.5rem;
+		color: var(--primary);
+	}
+
+	.details {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
+		margin: 2rem 0;
+	}
+
+	.details dt {
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+	}
+
+	.details dd {
+		margin: 0;
+		font-weight: 500;
+		color: var(--text-primary);
+	}
+
+	.description {
+		line-height: 1.6;
+		color: var(--text-primary);
+	}
+</style>
